@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.chitfund.user.dto.UserRequest;
 import com.chitfund.user.model.User;
-import com.chitfund.user.model.UserRequest;
 
 public interface UserService extends UserDetailsService {
 

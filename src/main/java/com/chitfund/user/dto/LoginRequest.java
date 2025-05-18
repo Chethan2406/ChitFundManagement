@@ -1,4 +1,4 @@
-package com.chitfund.user.model;
+package com.chitfund.user.dto;
 
 import lombok.Data;
 

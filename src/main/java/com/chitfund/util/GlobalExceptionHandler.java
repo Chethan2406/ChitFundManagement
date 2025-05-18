@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import com.chitfund.util.exceptions.MenuException;
+import com.chitfund.util.exceptions.ResourceNotFoundException;
+import com.chitfund.util.exceptions.UserException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -40,7 +43,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> DataIntegrityViolationExceptionExceptions(Exception ex) {
         Map<String, Object> errorMap = new HashMap<>();
         errorMap.put("statusCode", 400);
-    errorMap.put("message", "Duplicate entry or constraint violation occurred. Please check the data.");
+        errorMap.put("message", "Duplicate entry or constraint violation occurred. Please check the data.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMap);
     }
 
@@ -51,4 +54,13 @@ public class GlobalExceptionHandler {
         errorMap.put("message", ex.getMessage());
         return ResponseEntity.badRequest().body(errorMap);
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleNotFound(ResourceNotFoundException ex) {
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("statusCode", 400);
+        errorMap.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
+    }
+
 }

@@ -7,11 +7,11 @@ import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.chitfund.menu.dto.MenuRequest;
 import com.chitfund.menu.model.MenuInfo;
-import com.chitfund.menu.model.MenuRequest;
 import com.chitfund.menu.repository.MenuRepository;
-import com.chitfund.util.MenuException;
-import com.chitfund.util.UserException;
+import com.chitfund.util.exceptions.MenuException;
+import com.chitfund.util.exceptions.UserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 

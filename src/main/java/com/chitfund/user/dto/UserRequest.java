@@ -1,8 +1,9 @@
-package com.chitfund.user.model;
+package com.chitfund.user.dto;
 import lombok.*;
 import javax.validation.constraints.*;
 
 import com.chitfund.menu.model.MenuInfo;
+import com.chitfund.user.model.Role;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.chitfund.util;
+package com.chitfund.util.exceptions;
 
 public class UserException extends RuntimeException{
 

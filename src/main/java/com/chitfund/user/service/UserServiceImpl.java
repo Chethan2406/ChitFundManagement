@@ -8,10 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.chitfund.user.dto.UserRequest;
 import com.chitfund.user.model.User;
-import com.chitfund.user.model.UserRequest;
 import com.chitfund.user.repository.UserRepository;
-import com.chitfund.util.UserException;
+import com.chitfund.util.exceptions.UserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 

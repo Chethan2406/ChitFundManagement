@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chitfund.menu.dto.MenuRequest;
 import com.chitfund.menu.model.MenuInfo;
-import com.chitfund.menu.model.MenuRequest;
 import com.chitfund.menu.service.MenuService;
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.chitfund.menu.model;
+package com.chitfund.menu.dto;
 
 import java.util.List;
 
