@@ -22,8 +22,6 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    
-
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -36,22 +34,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors().and()
-            .csrf().disable()
-            .exceptionHandling()
+                .cors().and()
+                .csrf().disable()
+                .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedEntryPoint()).and()
-            .sessionManagement()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests()
-                .antMatchers("/auth/login","/users", "/v3/api-docs", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/users/login", "/auction/**", "/v3/api-docs", "/v2/api-docs", "/swagger-resources/**",
+                        "/swagger-ui/**", "/webjars/**")
+                .permitAll()
                 .anyRequest().authenticated().and()
-            .apply(new JwtConfigurer(jwtTokenProvider));
+                .apply(new JwtConfigurer(jwtTokenProvider));
         return http.build();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -72,5 +67,3 @@ public class SecurityConfig {
         };
     }
 }
-
-

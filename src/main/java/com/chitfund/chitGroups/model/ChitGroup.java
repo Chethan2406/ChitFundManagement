@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,6 +40,8 @@ public class ChitGroup {
     private String groupName;
     @Column(name = "fund_value")
     private BigDecimal fundValue;
+    @Column(name = "installment_amount")
+    private BigDecimal installmentAmount;
     @Column(name = "member_count")
     private Integer memberCount;
     @Column(name = "description")
@@ -51,10 +55,14 @@ public class ChitGroup {
     @Column(name = "bidding_duration_inSeconds")
     private Integer biddingDurationInSeconds;
     @Column(name = "auction_started")
+    @Builder.Default
     private Boolean auctionStarted = false;
     @Column(name = "auction_completed")
+    @Builder.Default
     private Boolean auctionCompleted = false;
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "installment_cycle")
+    private InstallmentCycle installmentCycle;
     @ManyToOne
     @JoinColumn(name = "fund_type_id")
     private ChitFundType fundType;

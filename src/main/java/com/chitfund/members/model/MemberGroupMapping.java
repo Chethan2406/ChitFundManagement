@@ -48,7 +48,6 @@ public class MemberGroupMapping {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private ChitGroup group;
-
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;

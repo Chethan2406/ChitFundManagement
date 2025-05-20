@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.chitfund.util.exceptions.ChitGroupException;
 import com.chitfund.util.exceptions.MenuException;
 import com.chitfund.util.exceptions.ResourceNotFoundException;
 import com.chitfund.util.exceptions.UserException;
@@ -63,4 +65,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
     }
 
+    @ExceptionHandler(ChitGroupException.class)
+    public ResponseEntity<?> chitGroupException(ChitGroupException ex) {
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("statusCode", 400);
+        errorMap.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMap);
+    }
 }

@@ -1,5 +1,9 @@
 package com.chitfund.chitGroups.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -30,19 +34,23 @@ public class ChitGroupImpl implements ChitGroupService {
             ChitFundType fundType = chitFundTypeRepository.findById(request.getFundTypeId())
                     .orElseThrow(
                             () -> new ChitGroupException("Fund type not found with id: " + request.getFundTypeId()));
+            BigDecimal memberCountBD = BigDecimal.valueOf(request.getMemberCount());
+            BigDecimal installmentAmount = request.getFundValue().divide(memberCountBD, 2, RoundingMode.HALF_UP);
 
             ChitGroup group = ChitGroup.builder()
                     .groupName(request.getGroupName())
                     .fundValue(request.getFundValue())
                     .memberCount(request.getMemberCount())
                     .description(request.getDescription())
-                    .createdDate(request.getCreatedDate())
+                    .installmentAmount(installmentAmount)
+                    .createdDate(LocalDate.now())
                     .fundCollectionDate(request.getFundCollectionDate())
                     .biddingStartTime(request.getBiddingStartTime())
                     .biddingDurationInSeconds(request.getBiddingDurationInSeconds())
-                    .auctionStarted(request.getAuctionStarted())
-                    .auctionCompleted(request.getAuctionCompleted())
+                    .auctionStarted(false)
+                    .auctionCompleted(false)
                     .fundType(fundType)
+                    .installmentCycle(request.getInstallmentCycle())
                     .build();
 
             return chitGroupRepository.save(group);
@@ -86,12 +94,10 @@ public class ChitGroupImpl implements ChitGroupService {
             existing.setFundValue(request.getFundValue());
             existing.setMemberCount(request.getMemberCount());
             existing.setDescription(request.getDescription());
-            existing.setCreatedDate(request.getCreatedDate());
+            existing.setCreatedDate(LocalDate.now());
             existing.setFundCollectionDate(request.getFundCollectionDate());
             existing.setBiddingStartTime(request.getBiddingStartTime());
             existing.setBiddingDurationInSeconds(request.getBiddingDurationInSeconds());
-            existing.setAuctionStarted(request.getAuctionStarted());
-            existing.setAuctionCompleted(request.getAuctionCompleted());
 
             if (request.getFundTypeId() != null) {
                 ChitFundType fundType = chitFundTypeRepository.findById(request.getFundTypeId())

@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.chitfund.user.dto.UserRequest;
@@ -22,10 +23,13 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final ObjectMapper objectMapper;
+	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
-	public UserServiceImpl(UserRepository userRepository, ObjectMapper objectMapper) {
+	public UserServiceImpl(UserRepository userRepository, ObjectMapper objectMapper,
+			BCryptPasswordEncoder bcryptPasswordEncoder) {
 		this.userRepository = userRepository;
 		this.objectMapper = objectMapper;
+		this.bcryptPasswordEncoder = bcryptPasswordEncoder;
 	}
 
 	@Override
@@ -50,16 +54,6 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			log.error("CFM_USI_002 - Error fetching all users", e);
 			throw new UserException("Unable to fetch all users", e);
-		}
-	}
-
-	@Override
-	public User saveUser(User user) {
-		try {
-			return userRepository.save(user);
-		} catch (Exception e) {
-			log.error("CFM_USI_004 - Error saving user", e);
-			throw new UserException("Unable to save user", e);
 		}
 	}
 
@@ -94,6 +88,8 @@ public class UserServiceImpl implements UserService {
 	public User saveUser(UserRequest request) {
 		try {
 			User user = objectMapper.convertValue(request, User.class);
+			user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+			user.setStatus(1);
 			user = userRepository.save(user);
 			return user;
 		} catch (DataIntegrityViolationException e) {

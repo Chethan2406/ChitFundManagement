@@ -19,8 +19,11 @@ public class AuctionWebSocketController {
 
     @MessageMapping("/bid")
     @SendTo("/topic/bid-update")
-    public BidResponse handleBid(BidRequest bid) {
-        auctionManager.placeBid(bid.getGroupId(), bid.getMemberId(), bid.getAmount());
-        return new BidResponse("Bid received", bid.getAmount());
+    public String handleBid(BidRequest bid) {
+        // auctionManager.placeBid(bid.getGroupId(), bid.getMemberId(),
+        // bid.getAmount());
+        // return new BidResponse("Bid received", bid.getAmount());
+        return "Bid received from memberId: " + bid.getMemberId() + " for amount: " + bid.getAmount();
+
     }
 }

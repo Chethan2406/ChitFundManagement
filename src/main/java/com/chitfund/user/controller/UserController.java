@@ -46,9 +46,9 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Map<String,Object>> saveUser(@Valid @RequestBody UserRequest request, BindingResult result) {
+	public ResponseEntity<Map<String, Object>> saveUser(@Valid @RequestBody UserRequest request, BindingResult result) {
 		log.info("CFM_USR_001 - Saving new UserRequest: {}", request);
-			Map<String,Object> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors()
@@ -95,7 +95,7 @@ public class UserController {
 		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		User updatedUser = userService.saveUser(user);
+		User updatedUser = userRepository.save(user);
 		return ResponseEntity.ok(updatedUser);
 	}
 
@@ -107,7 +107,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> loginLCO(@RequestBody LoginRequest request) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest request) {
 		log.debug("CFM_UC_007 - LoginController - login()");
 
 		Map<String, Object> response = new HashMap<>();
