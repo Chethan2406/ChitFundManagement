@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
-		log.info("EPG_US_008 - UserService : buildUserForAuthentication()");
+		log.info("CFM_USI_008 - UserService : buildUserForAuthentication()");
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 	}
 
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 			user = userRepository.save(user);
 			return user;
 		} catch (DataIntegrityViolationException e) {
-			log.error("EPG_US_009 - Data integrity violation while saving user", e);
+			log.error("CFM_USI_009 - Data integrity violation while saving user", e);
 
 			String rootCause = Optional.ofNullable(e.getRootCause())
 					.map(Throwable::getMessage)
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		catch (Exception e) {
-			log.error("EPG_US_009 - Error saving user", e);
+			log.error("CFM_USI_009 - Error saving user", e);
 			throw new UserException("Unable to save user", e);
 		}
 	}
