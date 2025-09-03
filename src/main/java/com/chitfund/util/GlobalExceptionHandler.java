@@ -18,11 +18,11 @@ import com.chitfund.util.exceptions.UserException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MenuException.class)
-    public ResponseEntity<String> handleMenuRelatedException(MenuException ex) {
+    public ResponseEntity<?> handleMenuRelatedException(MenuException ex) {
         Map<String, Object> errorMap = new HashMap<>();
         errorMap.put("statusCode", 600);
         errorMap.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMap);
     }
 
     @ExceptionHandler(UserException.class)
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleNotFound(ResourceNotFoundException ex) {
         Map<String, Object> errorMap = new HashMap<>();
-        errorMap.put("statusCode", 400);
+        errorMap.put("statusCode", 404);
         errorMap.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
     }

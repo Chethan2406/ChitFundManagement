@@ -20,10 +20,11 @@ public class AuctionWebSocketController {
     @MessageMapping("/bid")
     @SendTo("/topic/bid-update")
     public String handleBid(BidRequest bid) {
-        // auctionManager.placeBid(bid.getGroupId(), bid.getMemberId(),
-        // bid.getAmount());
-        // return new BidResponse("Bid received", bid.getAmount());
-        return "Bid received from memberId: " + bid.getMemberId() + " for amount: " + bid.getAmount();
-
+        try {
+            auctionManager.placeBid(bid.getGroupId(), bid.getMemberId(), bid.getAmount());
+            return "Bid received from memberId: " + bid.getMemberId() + " for amount: " + bid.getAmount();
+        } catch (Exception e) {
+            return "Error processing bid: " + e.getMessage();
+        }
     }
 }

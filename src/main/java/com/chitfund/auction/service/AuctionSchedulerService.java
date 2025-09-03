@@ -19,14 +19,28 @@ public class AuctionSchedulerService {
 
     @Scheduled(fixedRate = 5000)
     public void startAuctions() {
-        // List<ChitGroup> groups = chitGroupRepository.findUpcomingBiddings(LocalDateTime.now());
-        List<ChitGroup> groups =null;
-        for (ChitGroup group : groups) {
-            if (!group.getAuctionStarted()) {
-                group.setAuctionStarted(true);
-                chitGroupRepository.save(group);
-                auctionManager.startAuction(group);
+        try {
+            // TODO: Implement findUpcomingBiddings query in repository
+            // List<ChitGroup> groups = chitGroupRepository.findUpcomingBiddings(LocalDateTime.now());
+            
+            // For now, find groups that are ready for auction but not started yet
+            List<ChitGroup> groups = chitGroupRepository.findAll()
+                .stream()
+                .filter(group -> !group.getAuctionStarted() && 
+                               group.getBiddingStartTime() != null &&
+                               group.getBiddingStartTime().isBefore(java.time.LocalDateTime.now()))
+                .collect(java.util.stream.Collectors.toList());
+            
+            for (ChitGroup group : groups) {
+                if (!group.getAuctionStarted()) {
+                    group.setAuctionStarted(true);
+                    chitGroupRepository.save(group);
+                    auctionManager.startAuction(group);
+                }
             }
+        } catch (Exception e) {
+            // Log error but don't let scheduler fail
+            System.err.println("Error in auction scheduler: " + e.getMessage());
         }
     }
 }
